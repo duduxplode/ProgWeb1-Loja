@@ -63,7 +63,7 @@ public class ComputadorServiceImpl implements ComputadorService {
     }
 
     @Override
-    public Computador alterar(Computador computador) {
+    public Computador alterar(Computador computador, Long id) {
         this.validarCamposObrigatorios(computador);
         this.validarDados(computador);
         Computador computadorBD = this.recuperarComputadorOuGeraErro(computador.getId());
@@ -79,7 +79,7 @@ public class ComputadorServiceImpl implements ComputadorService {
     }
 
     @Override
-    public Computador obterComputadorPeloId(Long id) {
+    public Computador obterPeloId(Long id) {
         return null;
     }
 

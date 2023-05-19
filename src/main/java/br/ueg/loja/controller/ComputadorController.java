@@ -1,11 +1,17 @@
 package br.ueg.loja.controller;
 
+import br.ueg.api.exception.MessageResponse;
 import br.ueg.loja.dto.ComputadorDTO;
 import br.ueg.loja.mapper.ComputadorMapper;
 import br.ueg.loja.model.Computador;
 import br.ueg.loja.service.ComputadorService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +32,17 @@ public class ComputadorController {
     }
 
     @PostMapping
-    @Operation(description = "Método utilizado para realizar a inclusão de um computador")
-    public ComputadorDTO incluir(@RequestBody ComputadorDTO computadorDTO){
+    @Operation(description = "Método utilizado para realizar a inclusão de um computador", responses = {
+            @ApiResponse(responseCode = "200", description = "Computador Incluído",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ComputadorDTO.class) )),
+            @ApiResponse(responseCode = "400", description = "Campos Obrigatórios não informados",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MessageResponse.class)
+                    )
+            )
+    })
+    public ResponseEntity<ComputadorDTO> incluir(@Valid @RequestBody ComputadorDTO computadorDTO){
         //prepração para entrada.
         Computador computadorIncluir = this.computadorMapper.toComputador(computadorDTO);
 
@@ -37,15 +52,16 @@ public class ComputadorController {
 
         //preparação para o retorno
         ComputadorDTO retorno = this.computadorMapper.toDTO(computadorIncluir);
-        return retorno;
+        return ResponseEntity.ok(retorno);
     }
 
     @PutMapping(path = "/{id}")
-    @Operation(description = "Método utilizado para altlerar os dados de um computador")
+    @Operation(description = "Método utilizado para altlerar os dados de um computador", responses = {
+            @ApiResponse(responseCode = "200", description = "Computador Alterado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ComputadorDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Computador Não encontrado", content = @Content(mediaType = "application/json"))})
     public ComputadorDTO alterar(@RequestBody() ComputadorDTO computadorDTO, @PathVariable(name = "id") Long id ){
         Computador computador = computadorMapper.toComputador(computadorDTO);
-        computador.setId(id);
-        Computador alterar = computadorService.alterar(computador);
+        Computador alterar = computadorService.alterar(computador,id);
         return computadorMapper.toDTO(alterar);
     }
 
