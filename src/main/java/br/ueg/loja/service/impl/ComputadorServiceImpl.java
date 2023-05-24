@@ -1,5 +1,7 @@
 package br.ueg.loja.service.impl;
 
+import br.ueg.api.exception.BusinessException;
+import br.ueg.loja.exception.SistemaMessageCode;
 import br.ueg.loja.model.Computador;
 import br.ueg.loja.repository.ComputadorRepository;
 import br.ueg.loja.service.ComputadorService;
@@ -51,7 +53,7 @@ public class ComputadorServiceImpl implements ComputadorService {
         if (Objects.isNull(computador.getUnidadeHd()) || computador.getUnidadeHd().isEmpty()) camposVazios.add("Unidade de HD não informada");
 
         if(!camposVazios.isEmpty()){
-            throw  new IllegalArgumentException(
+            throw  new BusinessException(SistemaMessageCode.ERRO_CAMPOS_OBRIGATORIOS,
                     "Campos Obrigatórios não preenchidos ("+
                             String.join(",",camposVazios)+")"
             );
@@ -80,7 +82,7 @@ public class ComputadorServiceImpl implements ComputadorService {
 
     @Override
     public Computador obterPeloId(Long id) {
-        return null;
+        return this.recuperarComputadorOuGeraErro(id);
     }
 
     @Override
@@ -97,7 +99,7 @@ public class ComputadorServiceImpl implements ComputadorService {
         Computador computadorBD = computadorRepository
                 .findById(id)
                 .orElseThrow(
-                        () -> new IllegalArgumentException("Erro ao Localizar o computador!")
+                        () -> new BusinessException(SistemaMessageCode.ERRO_REGISTRO_NAO_ENCONTRADO)
                 );
         return computadorBD;
     }

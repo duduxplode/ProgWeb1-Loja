@@ -59,16 +59,25 @@ public class ComputadorController {
     @Operation(description = "Método utilizado para altlerar os dados de um computador", responses = {
             @ApiResponse(responseCode = "200", description = "Computador Alterado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ComputadorDTO.class))),
             @ApiResponse(responseCode = "404", description = "Computador Não encontrado", content = @Content(mediaType = "application/json"))})
-    public ComputadorDTO alterar(@RequestBody() ComputadorDTO computadorDTO, @PathVariable(name = "id") Long id ){
+    public ResponseEntity<ComputadorDTO> alterar(@RequestBody() ComputadorDTO computadorDTO, @PathVariable(name = "id") Long id ){
         Computador computador = computadorMapper.toComputador(computadorDTO);
         Computador alterar = computadorService.alterar(computador,id);
-        return computadorMapper.toDTO(alterar);
+        return ResponseEntity.ok(this.computadorMapper.toDTO(alterar));
+    }
+
+    @GetMapping(path = "/{id}")
+    @Operation(description = "Obter os dados completos de um computador pelo id informado!", responses = {
+            @ApiResponse(responseCode = "200", description = "Computador informado no ID", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ComputadorDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Computador Não encontrado", content = @Content(mediaType = "application/json"))})
+    public ResponseEntity<ComputadorDTO> ObterPorId(@PathVariable(name = "id") Long id){
+        Computador computador = this.computadorService.obterPeloId(id);
+        return ResponseEntity.ok(this.computadorMapper.toDTO(computador));
     }
 
     @DeleteMapping(path ="/{id}")
     @Operation(description = "Método utililzado para remover um computador pelo Id informado")
-    public ComputadorDTO remover(@PathVariable(name = "id") Long id){
+    public ResponseEntity<ComputadorDTO> remover(@PathVariable(name = "id") Long id){
         Computador computadorExcluido = this.computadorService.excluir(id);
-        return computadorMapper.toDTO(computadorExcluido);
+        return ResponseEntity.ok(this.computadorMapper.toDTO(computadorExcluido));
     }
 }
