@@ -6,11 +6,13 @@ import br.ueg.loja.mapper.ComputadorMapper;
 import br.ueg.loja.model.Computador;
 import br.ueg.loja.service.ComputadorService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +27,10 @@ public class ComputadorController {
     ComputadorService computadorService;
 
     @GetMapping()
-    @Operation(description = "Listagem Geral de computadores")
+    @Operation(description = "Listagem Geral de computadores" , responses = {
+            @ApiResponse(responseCode = "200", description = "Listagem geral",
+                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
+                            array = @ArraySchema(schema = @Schema(implementation = ComputadorDTO.class))))})
     public List<ComputadorDTO> listAll(){
         List<Computador> computadores = computadorService.listarTodos();
         return computadorMapper.toDTO(computadores);

@@ -32,7 +32,7 @@ public class ApiWebConfig {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		CorsConfiguration config = new CorsConfiguration();
 		config.setAllowCredentials(true);
-		config.addAllowedOrigin("*");
+		config.addAllowedOriginPattern("http://*");
 		config.addAllowedHeader("*");
 		config.addAllowedMethod(HttpMethod.GET);
 		config.addAllowedMethod(HttpMethod.POST);
