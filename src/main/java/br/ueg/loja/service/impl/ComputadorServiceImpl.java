@@ -68,7 +68,8 @@ public class ComputadorServiceImpl implements ComputadorService {
     public Computador alterar(Computador computador, Long id) {
         this.validarCamposObrigatorios(computador);
         this.validarDados(computador);
-        Computador computadorBD = this.recuperarComputadorOuGeraErro(computador.getId());
+        Computador computadorBD = this.recuperarComputadorOuGeraErro(id);
+        computador.setId(id);
         Computador save = computadorRepository.save(computador);
         return save;
     }

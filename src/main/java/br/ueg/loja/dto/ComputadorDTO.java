@@ -15,5 +15,5 @@ public @Data class ComputadorDTO {
     private String processador;
     private Integer tamanhoHd;
     private String unidadeHd;
-    private Date dataLancamento;
+    private LocalDate dataLancamento;
 }
