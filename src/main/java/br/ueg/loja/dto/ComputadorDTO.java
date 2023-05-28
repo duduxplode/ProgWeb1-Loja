@@ -4,6 +4,7 @@ import jakarta.persistence.Column;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public @Data class ComputadorDTO {
     private Long id;
@@ -14,5 +15,5 @@ public @Data class ComputadorDTO {
     private String processador;
     private Integer tamanhoHd;
     private String unidadeHd;
-    private LocalDate dataLancameanto;
+    private Date dataLancamento;
 }

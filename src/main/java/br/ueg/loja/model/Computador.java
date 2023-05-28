@@ -2,6 +2,7 @@ package br.ueg.loja.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -43,7 +44,8 @@ public class Computador {
     private Integer tamanhoHd;
     @Column(name = "unidade_hd", length = 2, nullable = false)
     private String unidadeHd;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     @Column(name = "data_lancamento", nullable = false)
-    private LocalDate dataLancameanto;
+    private LocalDate dataLancamento;
 
 }
