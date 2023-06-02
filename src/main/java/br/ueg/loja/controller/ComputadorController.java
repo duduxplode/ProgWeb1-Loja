@@ -1,10 +1,10 @@
 package br.ueg.loja.controller;
 
-import br.ueg.api.exception.MessageResponse;
 import br.ueg.loja.dto.ComputadorDTO;
 import br.ueg.loja.mapper.ComputadorMapper;
 import br.ueg.loja.model.Computador;
 import br.ueg.loja.service.ComputadorService;
+import br.ueg.prog.webi.api.exception.MessageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

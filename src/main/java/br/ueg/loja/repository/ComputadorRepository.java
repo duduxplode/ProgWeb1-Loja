@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ComputadorRepository extends JpaRepository<Computador, Long> {
     @Query(value = "select count(c) from Computador c where c.tipo=:paramTipo")
-    Integer countTipo(String paramTipo);
+    Integer count(String paramTipo);
 }

@@ -8,7 +8,7 @@
  */
 package br.ueg.loja.exception;
 
-import br.ueg.api.exception.MessageCode;
+import br.ueg.prog.webi.api.exception.MessageCode;
 
 /**
  * Enum com os código de exceções/mensagens de negócio.

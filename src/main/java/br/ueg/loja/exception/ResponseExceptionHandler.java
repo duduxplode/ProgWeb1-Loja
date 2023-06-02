@@ -4,8 +4,8 @@
  */
 package br.ueg.loja.exception;
 
-import br.ueg.api.exception.ApiRestResponseExceptionHandler;
-import br.ueg.api.exception.MessageCode;
+import br.ueg.prog.webi.api.exception.ApiRestResponseExceptionHandler;
+import br.ueg.prog.webi.api.exception.MessageCode;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 

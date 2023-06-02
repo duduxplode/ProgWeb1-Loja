@@ -10,8 +10,7 @@ package br.ueg.loja.configuration;
 
 //import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import br.ueg.api.config.ApiSwaggerConfig;
-import br.ueg.api.config.ApiSwaggerConfig;
+import br.ueg.prog.webi.api.config.ApiSwaggerConfig;
 import org.springframework.context.annotation.Configuration;
 
 /**

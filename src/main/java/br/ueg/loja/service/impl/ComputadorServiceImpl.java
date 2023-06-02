@@ -1,10 +1,10 @@
 package br.ueg.loja.service.impl;
 
-import br.ueg.api.exception.BusinessException;
 import br.ueg.loja.exception.SistemaMessageCode;
 import br.ueg.loja.model.Computador;
 import br.ueg.loja.repository.ComputadorRepository;
 import br.ueg.loja.service.ComputadorService;
+import br.ueg.prog.webi.api.exception.BusinessException;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
