@@ -6,22 +6,18 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Data
 @Entity
-@Table(name = "TBL_COMPUTADOR",
-        uniqueConstraints = {
-                @UniqueConstraint(name= Computador.UK_DESCRICAO, columnNames = "descricao" )
-        }
+@Table(name = "TBL_VENDA"
 )
-public class Computador {
-    public static final String UK_DESCRICAO = "uk_descricao";
+public class Venda {
+
     @SequenceGenerator(
             name="a_gerador_sequence",
-            sequenceName = "computador_sequence",
+            sequenceName = "venda_sequence",
             allocationSize = 1
     )
     @GeneratedValue(
@@ -31,28 +27,17 @@ public class Computador {
     @Id
     @Column(name = "id")
     private Long id;
-    @Column(name = "descricao", length = 200, nullable = false)
-    private String descricao;
-    @Column(name = "tipo", length = 200, nullable = false)
-    private String tipo;
-    @Column(name = "tamanhoRam", nullable = false)
-    private Integer tamanhoRam;
-    @Column(name = "unidade_ram", length = 2, nullable = false)
-    private String unidadeRam;
-    @Column(name = "processador", length = 200, nullable = false)
-    private String processador;
-    @Column(name = "tamanho_hd", nullable = false)
-    private Integer tamanhoHd;
-    @Column(name = "unidade_hd", length = 2, nullable = false)
-    private String unidadeHd;
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
-    @Column(name = "data_lancamento", nullable = false)
-    private LocalDate dataLancamento;
-    @Column(name = "valor_compra", nullable = false)
-    private BigDecimal valorCompra;
-    @Column(name = "valor_venda", nullable = false)
-    private BigDecimal valorVenda;
+    @JoinColumn(name = "fk_computador", referencedColumnName = "id")
+    @ManyToOne
+    private Computador fkComputador;
     @Column(name = "quantidade", nullable = false)
     private Integer quantidade;
+    @Column(name = "valor_unitario", nullable = false)
+    private BigDecimal valorUnitario;
+    @Column(name = "valor_total", length = 2, nullable = false)
+    private BigDecimal valorTotal ;
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    @Column(name = "data_venda", nullable = false)
+    private LocalDate dataVenda;
 
 }

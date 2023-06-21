@@ -1,19 +1,19 @@
 package br.ueg.loja.mapper;
 
-import br.ueg.loja.dto.ComputadorDTO;
-import br.ueg.loja.model.Computador;
+import br.ueg.loja.dto.VendaDTO;
+import br.ueg.loja.model.Venda;
 import org.mapstruct.Mapper;
 
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface ComputadorMapper {
+public interface VendaMapper {
     /**
-     * Converte a Entidade {@link Computador} em {@link br.ueg.loja.dto.ComputadorDTO}
-     * @param computador
+     * Converte a Entidade {@link Venda} em {@link VendaDTO}
+     * @param venda
      * @return
      */
-    public ComputadorDTO toDTO(Computador computador);
-    public List<ComputadorDTO> toDTO(List<Computador> computadores);
-    public Computador toComputador(ComputadorDTO computadorDTO);
+    public VendaDTO toDTO(Venda venda);
+    public List<VendaDTO> toDTO(List<Venda> vendas);
+    public Venda toVenda(VendaDTO vendaDTO);
 }

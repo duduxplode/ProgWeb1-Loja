@@ -1,9 +1,9 @@
 package br.ueg.loja.controller;
 
-import br.ueg.loja.dto.ComputadorDTO;
-import br.ueg.loja.mapper.ComputadorMapper;
-import br.ueg.loja.model.Computador;
-import br.ueg.loja.service.ComputadorService;
+import br.ueg.loja.dto.VendaDTO;
+import br.ueg.loja.mapper.VendaMapper;
+import br.ueg.loja.model.Venda;
+import br.ueg.loja.service.VendaService;
 import br.ueg.prog.webi.api.exception.MessageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -19,70 +19,70 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "${app.api.base}/computador")
-public class ComputadorController {
+@RequestMapping(path = "${app.api.base}/venda")
+public class VendaController {
     @Autowired
-    ComputadorMapper computadorMapper;
+    VendaMapper vendaMapper;
     @Autowired
-    ComputadorService computadorService;
+    VendaService vendaService;
 
     @GetMapping()
-    @Operation(description = "Listagem Geral de computadores" , responses = {
+    @Operation(description = "Listagem Geral de vendas" , responses = {
             @ApiResponse(responseCode = "200", description = "Listagem geral",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                            array = @ArraySchema(schema = @Schema(implementation = ComputadorDTO.class))))})
-    public List<ComputadorDTO> listAll(){
-        List<Computador> computadores = computadorService.listarTodos();
-        return computadorMapper.toDTO(computadores);
+                            array = @ArraySchema(schema = @Schema(implementation = VendaDTO.class))))})
+    public List<VendaDTO> listAll(){
+        List<Venda> vendas = vendaService.listarTodos();
+        return vendaMapper.toDTO(vendas);
     }
 
     @PostMapping
-    @Operation(description = "Método utilizado para realizar a inclusão de um computador", responses = {
-            @ApiResponse(responseCode = "200", description = "Computador Incluído",
+    @Operation(description = "Método utilizado para realizar a inclusão de uma venda", responses = {
+            @ApiResponse(responseCode = "200", description = "Venda Incluída",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ComputadorDTO.class) )),
+                            schema = @Schema(implementation = VendaDTO.class) )),
             @ApiResponse(responseCode = "400", description = "Campos Obrigatórios não informados",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = MessageResponse.class)
                     )
             )
     })
-    public ResponseEntity<ComputadorDTO> incluir(@Valid @RequestBody ComputadorDTO computadorDTO){
+    public ResponseEntity<VendaDTO> incluir(@Valid @RequestBody VendaDTO vendaDTO){
         //prepração para entrada.
-        Computador computadorIncluir = this.computadorMapper.toComputador(computadorDTO);
+        Venda vendaIncluir = this.vendaMapper.toVenda(vendaDTO);
 
         //chamada do serviço
-        System.out.println(computadorIncluir);
-        computadorIncluir = this.computadorService.incluir(computadorIncluir);
+        System.out.println(vendaIncluir);
+        vendaIncluir = this.vendaService.incluir(vendaIncluir);
 
         //preparação para o retorno
-        ComputadorDTO retorno = this.computadorMapper.toDTO(computadorIncluir);
+        VendaDTO retorno = this.vendaMapper.toDTO(vendaIncluir);
         return ResponseEntity.ok(retorno);
     }
 
     @PutMapping(path = "/{id}")
-    @Operation(description = "Método utilizado para altlerar os dados de um computador", responses = {
-            @ApiResponse(responseCode = "200", description = "Computador Alterado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ComputadorDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Computador Não encontrado", content = @Content(mediaType = "application/json"))})
-    public ResponseEntity<ComputadorDTO> alterar(@RequestBody() ComputadorDTO computadorDTO, @PathVariable(name = "id") Long id ){
-        Computador computador = computadorMapper.toComputador(computadorDTO);
-        Computador alterar = computadorService.alterar(computador,id);
-        return ResponseEntity.ok(this.computadorMapper.toDTO(alterar));
+    @Operation(description = "Método utilizado para altlerar os dados de uma venda", responses = {
+            @ApiResponse(responseCode = "200", description = "Venda Alterada", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VendaDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Venda Não encontrada", content = @Content(mediaType = "application/json"))})
+    public ResponseEntity<VendaDTO> alterar(@RequestBody() VendaDTO vendaDTO, @PathVariable(name = "id") Long id ){
+        Venda venda = vendaMapper.toVenda(vendaDTO);
+        Venda alterar = vendaService.alterar(venda,id);
+        return ResponseEntity.ok(this.vendaMapper.toDTO(alterar));
     }
 
     @GetMapping(path = "/{id}")
-    @Operation(description = "Obter os dados completos de um computador pelo id informado!", responses = {
-            @ApiResponse(responseCode = "200", description = "Computador informado no ID", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ComputadorDTO.class))),
-            @ApiResponse(responseCode = "404", description = "Computador Não encontrado", content = @Content(mediaType = "application/json"))})
-    public ResponseEntity<ComputadorDTO> ObterPorId(@PathVariable(name = "id") Long id){
-        Computador computador = this.computadorService.obterPeloId(id);
-        return ResponseEntity.ok(this.computadorMapper.toDTO(computador));
+    @Operation(description = "Obter os dados completos de uma venda pelo id informado!", responses = {
+            @ApiResponse(responseCode = "200", description = "Venda informada no ID", content = @Content(mediaType = "application/json", schema = @Schema(implementation = VendaDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Venda Não encontrada", content = @Content(mediaType = "application/json"))})
+    public ResponseEntity<VendaDTO> ObterPorId(@PathVariable(name = "id") Long id){
+        Venda venda = this.vendaService.obterPeloId(id);
+        return ResponseEntity.ok(this.vendaMapper.toDTO(venda));
     }
 
     @DeleteMapping(path ="/{id}")
-    @Operation(description = "Método utililzado para remover um computador pelo Id informado")
-    public ResponseEntity<ComputadorDTO> remover(@PathVariable(name = "id") Long id){
-        Computador computadorExcluido = this.computadorService.excluir(id);
-        return ResponseEntity.ok(this.computadorMapper.toDTO(computadorExcluido));
+    @Operation(description = "Método utililzado para remover uma venda pelo Id informado")
+    public ResponseEntity<VendaDTO> remover(@PathVariable(name = "id") Long id){
+        Venda vendaExcluida = this.vendaService.excluir(id);
+        return ResponseEntity.ok(this.vendaMapper.toDTO(vendaExcluida));
     }
 }

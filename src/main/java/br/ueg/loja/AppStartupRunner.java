@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -36,6 +37,9 @@ public class AppStartupRunner {
         c1.setTamanhoHd(500);
         c1.setUnidadeHd("Gb");
         c1.setDataLancamento(LocalDate.parse("2020-05-04"));
+        c1.setValorCompra(BigDecimal.valueOf(3500));
+        c1.setValorVenda(BigDecimal.valueOf(4500));
+        c1.setQuantidade(5);
 
         try {
             computadorRepository.save(c1);
@@ -52,6 +56,9 @@ public class AppStartupRunner {
         c2.setTamanhoHd(1);
         c2.setUnidadeHd("Tb");
         c2.setDataLancamento(LocalDate.parse("2022-10-15"));
+        c1.setValorCompra(BigDecimal.valueOf(3000));
+        c1.setValorVenda(BigDecimal.valueOf(4000));
+        c1.setQuantidade(10);
 
         try {
             computadorRepository.save(c2);

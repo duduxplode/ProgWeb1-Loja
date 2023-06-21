@@ -29,9 +29,8 @@ public class ComputadorServiceImpl implements ComputadorService {
         List<String> erros = new ArrayList<>();
 
         if (computador.getTamanhoRam() < 0) erros.add("Tamanho de RAM incorreto");
-        if (computador.getUnidadeRam().length() > 2) erros.add("Unidade de RAM incorreta");
         if (computador.getTamanhoHd() < 0) erros.add("Tamanho de HD incorreto");
-        if (computador.getUnidadeHd().length() > 2) erros.add("Unidade de HD incorreta");
+        if (computador.getQuantidade() < 1) erros.add("Quantidade incorreta");
 
         if(!erros.isEmpty()){
             throw  new IllegalArgumentException("Erro ao validar dados do computador: "+
@@ -49,8 +48,11 @@ public class ComputadorServiceImpl implements ComputadorService {
         if (Objects.isNull(computador.getProcessador()) || computador.getProcessador().isEmpty()) camposVazios.add("Processador não informado");
         if (Objects.isNull(computador.getTamanhoRam())) camposVazios.add("Tamanho de RAM não informado");
         if (Objects.isNull(computador.getUnidadeRam()) || computador.getUnidadeRam().isEmpty()) camposVazios.add("Unidade de RAM não informada");
-        if (Objects.isNull(computador.getTamanhoHd())) camposVazios.add("Tamanho de HD incorreto");
+        if (Objects.isNull(computador.getTamanhoHd())) camposVazios.add("Tamanho de HD não informado");
         if (Objects.isNull(computador.getUnidadeHd()) || computador.getUnidadeHd().isEmpty()) camposVazios.add("Unidade de HD não informada");
+        if (Objects.isNull(computador.getValorCompra())) camposVazios.add("Valor de compra não informado");
+        if (Objects.isNull(computador.getValorVenda())) camposVazios.add("Valor de venda não informado");
+        if (Objects.isNull(computador.getQuantidade())) camposVazios.add("Quantidade não informada");
 
         if(!camposVazios.isEmpty()){
             throw  new BusinessException(SistemaMessageCode.ERRO_CAMPOS_OBRIGATORIOS,

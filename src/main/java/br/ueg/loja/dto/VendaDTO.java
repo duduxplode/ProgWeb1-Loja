@@ -1,23 +1,16 @@
 package br.ueg.loja.dto;
 
-import jakarta.persistence.Column;
+import br.ueg.loja.model.Computador;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Date;
 
-public @Data class ComputadorDTO {
+public @Data class VendaDTO {
     private Long id;
-    private String descricao;
-    private String tipo;
-    private Integer tamanhoRam;
-    private String unidadeRam;
-    private String processador;
-    private Integer tamanhoHd;
-    private String unidadeHd;
-    private LocalDate dataLancamento;
-    private BigDecimal valorCompra;
-    private BigDecimal valorVenda;
+    private ComputadorDTO fkComputador;
     private Integer quantidade;
+    private LocalDate dataVenda;
+    private BigDecimal valorUnitario;
+    private BigDecimal valorTotal;
 }
