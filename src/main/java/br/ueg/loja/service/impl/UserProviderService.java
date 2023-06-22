@@ -13,12 +13,14 @@ public class UserProviderService implements br.ueg.prog.webi.api.service.UserPro
     @Override
     public CredencialDTO getCredentialByLogin(String username) {
         if(Objects.nonNull(username) && username.equals("admin")){
-            return getCredencialDTO();
+            return getCredencialAdminDTO();
+        } else if(Objects.nonNull(username) && username.equals("cliente")){
+            return getCredencialClienteDTO();
         }
         return null;
     }
 
-    private static CredencialDTO getCredencialDTO() {
+    private static CredencialDTO getCredencialAdminDTO() {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         String senhaCodificada = bCryptPasswordEncoder.encode("admin");
         return CredencialDTO.builder()
@@ -32,6 +34,20 @@ public class UserProviderService implements br.ueg.prog.webi.api.service.UserPro
                 .build();
     }
 
+    private static CredencialDTO getCredencialClienteDTO() {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        String senhaCodificada = bCryptPasswordEncoder.encode("cliente");
+        return CredencialDTO.builder()
+                .login("cliente")
+                .id(1L)
+                .nome("Cliente")
+                .email("cliente@cliente.com.br")
+                .roles(Arrays.asList("ROLE_CLIENTE"))
+                .statusAtivo(true)
+                .senha(senhaCodificada)
+                .build();
+    }
+
     @Override
     public CredencialDTO redefinirSenha(UsuarioSenhaDTO usuarioSenhaDTO) {
         return null;
@@ -40,7 +56,9 @@ public class UserProviderService implements br.ueg.prog.webi.api.service.UserPro
     @Override
     public CredencialDTO getCredentialByEmail(String email) {
         if(Objects.nonNull(email) && email.equals("admin@admin.com.br")){
-            return getCredencialDTO();
+            return getCredencialAdminDTO();
+        } else if(Objects.nonNull(email) && email.equals("cliente@cliente.com.br")){
+            return getCredencialClienteDTO();
         }
         return null;
     }

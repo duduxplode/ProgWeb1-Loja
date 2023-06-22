@@ -1,7 +1,9 @@
 package br.ueg.loja.service.impl;
 
 import br.ueg.loja.exception.SistemaMessageCode;
+import br.ueg.loja.model.Computador;
 import br.ueg.loja.model.Venda;
+import br.ueg.loja.repository.ComputadorRepository;
 import br.ueg.loja.repository.VendaRepository;
 import br.ueg.loja.service.VendaService;
 import br.ueg.prog.webi.api.exception.BusinessException;
@@ -10,22 +12,28 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class VendaServiceImpl implements VendaService {
     @Autowired
     private VendaRepository vendaRepository;
+    @Autowired
+    private ComputadorRepository computadorRepository;
     @Override
     public Venda incluir(Venda venda) {
         this.validarCamposObrigatorios(venda);
         this.validarDados(venda);
+        venda.getFkComputador().setQuantidade(venda.getFkComputador().getQuantidade() - venda.getQuantidade());
         Venda vendaIncluida = this.gravarDados(venda);
+        if (Objects.nonNull(vendaIncluida)) computadorRepository.save(vendaIncluida.getFkComputador());
         return vendaIncluida;
     }
 
     private void validarDados(Venda venda) {
         List<String> erros = new ArrayList<>();
 
+        if (venda.getQuantidade() > venda.getFkComputador().getQuantidade()) erros.add("Quantidade insuficiente para esta compra");
 //        if (computador.getTamanhoRam() < 0) erros.add("Tamanho de RAM incorreto");
 //        if (computador.getTamanhoHd() < 0) erros.add("Tamanho de HD incorreto");
 //        if (computador.getQuantidade() < 1) erros.add("Quantidade incorreta");

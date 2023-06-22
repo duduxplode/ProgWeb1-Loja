@@ -4,7 +4,10 @@ import br.ueg.loja.model.Computador;
 import br.ueg.loja.repository.ComputadorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -12,7 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Component
-public class AppStartupRunner {
+public class AppStartupRunner implements ApplicationRunner {
 
     public static final String NONE="none";
     public static final String CREATE_DROP="create-drop";
@@ -25,7 +28,10 @@ public class AppStartupRunner {
     private static final Logger LOG =
             LoggerFactory.getLogger(AppStartupRunner.class);
 
-    public AppStartupRunner(ComputadorRepository computadorRepository){
+    @Autowired
+    private ComputadorRepository computadorRepository;
+
+    public void initDados(){
         System.out.println("Executado");
         System.out.println(computadorRepository);
         Computador c1 = new Computador();
@@ -40,12 +46,7 @@ public class AppStartupRunner {
         c1.setValorCompra(BigDecimal.valueOf(3500));
         c1.setValorVenda(BigDecimal.valueOf(4500));
         c1.setQuantidade(5);
-
-        try {
-            computadorRepository.save(c1);
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
+        computadorRepository.save(c1);
 
         Computador c2 = new Computador();
         c2.setDescricao("Nitro 5");
@@ -59,19 +60,20 @@ public class AppStartupRunner {
         c1.setValorCompra(BigDecimal.valueOf(3000));
         c1.setValorVenda(BigDecimal.valueOf(4000));
         c1.setQuantidade(10);
+        computadorRepository.save(c2);
 
-        try {
-            computadorRepository.save(c2);
-        }catch(Exception e) {
-            e.printStackTrace();
-        }
-
+        imprimirLista();
     }
 
-    private static void imprimirLista(ComputadorRepository computadorRepository) {
+    private void imprimirLista() {
         List<Computador> lista = computadorRepository.findAll();
         lista.forEach(item -> {
             System.out.println("Computador: "+item);
         });
+    }
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        this.initDados();
     }
 }
