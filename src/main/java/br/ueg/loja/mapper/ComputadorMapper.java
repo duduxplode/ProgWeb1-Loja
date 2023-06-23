@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ComputadorMapper {
     /**
-     * Converte a Entidade {@link Computador} em {@link br.ueg.loja.dto.ComputadorDTO}
+     * Converte a Entidade {@link Computador} em {@link ComputadorDTO}
      * @param computador
      * @return
      */

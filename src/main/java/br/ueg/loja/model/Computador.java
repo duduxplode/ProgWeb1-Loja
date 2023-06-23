@@ -54,7 +54,7 @@ public class Computador {
     private BigDecimal valorVenda;
     @Column(name = "quantidade", nullable = false)
     private Integer quantidade;
-    @Column(name = "imagem", nullable = true)
+    @Column(name = "imagem", nullable = false)
     private String imagem;
 
 }
