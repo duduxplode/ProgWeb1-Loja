@@ -74,6 +74,7 @@ public class AppStartupRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        System.out.println("Start Runner");
         this.initDados();
     }
 }
