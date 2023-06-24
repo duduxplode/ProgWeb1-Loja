@@ -80,7 +80,9 @@ public class ComputadorController {
     }
 
     @DeleteMapping(path ="/{id}")
-    @Operation(description = "Método utililzado para remover um computador pelo Id informado")
+    @Operation(description = "Método utililzado para remover um computador pelo Id informado", responses = {
+            @ApiResponse(responseCode = "200", description = "Computador deletado", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ComputadorDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Computador Não encontrado", content = @Content(mediaType = "application/json"))})
     public ResponseEntity<ComputadorDTO> remover(@PathVariable(name = "id") Long id){
         Computador computadorExcluido = this.computadorService.excluir(id);
         return ResponseEntity.ok(this.computadorMapper.toDTO(computadorExcluido));
