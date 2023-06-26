@@ -67,13 +67,10 @@ public class FileUploadController {
 			@ApiResponse(responseCode = "200", description = "Adiciona arquivo",
 					content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
 							array = @ArraySchema(schema = @Schema(implementation = MultipartFile.class))))})
-	@PostMapping(consumes = "multipart/form-data", path = "/")
-	public ResponseEntity<Resource> handleFileUpload(@RequestParam ("files") MultipartFile file,
-			RedirectAttributes redirectAttributes) {
+	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, path = "/")
+	public ResponseEntity<Resource> handleFileUpload(@RequestPart("file") MultipartFile file) {
 
 		storageService.store(file);
-		redirectAttributes.addFlashAttribute("message",
-				"You successfully uploaded " + file.getOriginalFilename() + "!");
 
 		return ResponseEntity.ok().body(file.getResource());
 	}
