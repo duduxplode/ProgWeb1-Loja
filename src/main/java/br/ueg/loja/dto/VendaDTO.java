@@ -13,4 +13,5 @@ public @Data class VendaDTO {
     private LocalDate dataVenda;
     private BigDecimal valorUnitario;
     private BigDecimal valorTotal;
+    private String cliente;
 }

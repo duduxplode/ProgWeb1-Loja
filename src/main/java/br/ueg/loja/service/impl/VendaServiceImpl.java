@@ -17,9 +17,11 @@ import java.util.Objects;
 @Service
 public class VendaServiceImpl implements VendaService {
     @Autowired
-    private VendaRepository vendaRepository;
+    protected VendaRepository vendaRepository;
     @Autowired
     private ComputadorRepository computadorRepository;
+    @Autowired
+    private  UserProviderService userProviderService;
     @Override
     public Venda incluir(Venda venda) {
         this.validarCamposObrigatorios(venda);
@@ -39,7 +41,7 @@ public class VendaServiceImpl implements VendaService {
 //        if (computador.getQuantidade() < 1) erros.add("Quantidade incorreta");
 
         if(!erros.isEmpty()){
-            throw  new IllegalArgumentException("Erro ao validar dados da venda: "+
+            throw  new BusinessException(SistemaMessageCode.ERRO_REGISTRO_NAO_ENCONTRADO,"Erro ao validar dados da venda: "+
                     String.join(",", erros)
             );
         }
@@ -111,5 +113,9 @@ public class VendaServiceImpl implements VendaService {
                         () -> new BusinessException(SistemaMessageCode.ERRO_REGISTRO_NAO_ENCONTRADO)
                 );
         return vendaBD;
+    }
+
+    public Integer contarVendas(Long idComputador) {
+        return vendaRepository.count(idComputador);
     }
 }

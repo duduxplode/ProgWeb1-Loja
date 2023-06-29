@@ -6,6 +6,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 public @Data class ComputadorDTO {
     private Long id;
@@ -22,4 +23,6 @@ public @Data class ComputadorDTO {
     private Integer quantidade;
     private String imagem;
     private String imagemBase64;
+    private List<VendaDTO> listVendaDto;
+    private Integer contVendas;
 }

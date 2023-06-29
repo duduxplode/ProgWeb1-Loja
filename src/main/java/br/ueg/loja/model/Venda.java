@@ -30,6 +30,8 @@ public class Venda {
     @JoinColumn(name = "fk_computador", referencedColumnName = "id")
     @ManyToOne
     private Computador fkComputador;
+    @Column(name = "cliente", nullable = false)
+    private String cliente;
     @Column(name = "quantidade", nullable = false)
     private Integer quantidade;
     @Column(name = "valor_unitario", nullable = false)

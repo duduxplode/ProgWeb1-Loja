@@ -4,6 +4,7 @@ import br.ueg.loja.dto.ComputadorDTO;
 import br.ueg.loja.mapper.ComputadorMapper;
 import br.ueg.loja.model.Computador;
 import br.ueg.loja.service.ComputadorService;
+import br.ueg.loja.service.VendaService;
 import br.ueg.loja.storage.StorageService;
 import br.ueg.loja.utils.Base64Converter;
 import br.ueg.prog.webi.api.exception.MessageResponse;
@@ -29,6 +30,8 @@ public class ComputadorController {
     ComputadorMapper computadorMapper;
     @Autowired
     ComputadorService computadorService;
+    @Autowired
+    VendaService vendaService;
 
     private final StorageService storageService;
 
@@ -43,7 +46,13 @@ public class ComputadorController {
                             array = @ArraySchema(schema = @Schema(implementation = ComputadorDTO.class))))})
     public List<ComputadorDTO> listAll(){
         List<ComputadorDTO> computadores = computadorMapper.toDTO(computadorService.listarTodos());
+        geraComplemento(computadores);
+        return computadores;
+    }
+
+    private void geraComplemento(List<ComputadorDTO> computadores) {
         for (ComputadorDTO computadorDto: computadores) {
+            computadorDto.setContVendas(vendaService.contarVendas(computadorDto.getId()));
             if (!computadorDto.getImagem().isEmpty()) {
                 File arquivo = new File(storageService.load(computadorDto.getImagem()).toString());
                 try {
@@ -53,7 +62,6 @@ public class ComputadorController {
                 }
             }
         }
-        return computadores;
     }
 
     @PostMapping

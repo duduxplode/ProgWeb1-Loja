@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.List;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -56,5 +57,8 @@ public class Computador {
     private Integer quantidade;
     @Column(name = "imagem", nullable = false)
     private String imagem;
+    @OneToMany(mappedBy = "fkComputador", fetch = FetchType.LAZY,
+            cascade = {CascadeType.ALL})
+    private List<Venda> listVenda;
 
 }
