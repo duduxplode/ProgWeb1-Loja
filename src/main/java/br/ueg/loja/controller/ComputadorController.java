@@ -4,6 +4,8 @@ import br.ueg.loja.dto.ComputadorDTO;
 import br.ueg.loja.mapper.ComputadorMapper;
 import br.ueg.loja.model.Computador;
 import br.ueg.loja.service.ComputadorService;
+import br.ueg.loja.storage.StorageService;
+import br.ueg.loja.utils.Base64Converter;
 import br.ueg.prog.webi.api.exception.MessageResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -16,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -26,14 +30,30 @@ public class ComputadorController {
     @Autowired
     ComputadorService computadorService;
 
+    private final StorageService storageService;
+
+    public ComputadorController(StorageService storageService) {
+        this.storageService = storageService;
+    }
+
     @GetMapping()
     @Operation(description = "Listagem Geral de computadores" , responses = {
             @ApiResponse(responseCode = "200", description = "Listagem geral",
                     content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                             array = @ArraySchema(schema = @Schema(implementation = ComputadorDTO.class))))})
     public List<ComputadorDTO> listAll(){
-        List<Computador> computadores = computadorService.listarTodos();
-        return computadorMapper.toDTO(computadores);
+        List<ComputadorDTO> computadores = computadorMapper.toDTO(computadorService.listarTodos());
+        for (ComputadorDTO computadorDto: computadores) {
+            if (!computadorDto.getImagem().isEmpty()) {
+                File arquivo = new File(storageService.load(computadorDto.getImagem()).toString());
+                try {
+                    computadorDto.setImagemBase64(Base64Converter.toBase64(arquivo));
+                } catch (IOException e) {
+
+                }
+            }
+        }
+        return computadores;
     }
 
     @PostMapping

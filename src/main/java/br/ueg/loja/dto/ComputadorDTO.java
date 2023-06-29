@@ -21,4 +21,5 @@ public @Data class ComputadorDTO {
     private BigDecimal valorVenda;
     private Integer quantidade;
     private String imagem;
+    private String imagemBase64;
 }

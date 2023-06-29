@@ -5,8 +5,8 @@ import br.ueg.loja.model.Computador;
 import br.ueg.loja.repository.ComputadorRepository;
 import br.ueg.loja.repository.VendaRepository;
 import br.ueg.loja.service.ComputadorService;
+import br.ueg.loja.storage.StorageService;
 import br.ueg.prog.webi.api.exception.BusinessException;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +16,13 @@ import java.util.Objects;
 
 @Service
 public class ComputadorServiceImpl implements ComputadorService {
+
+
     @Autowired
     private ComputadorRepository computadorRepository;
     @Autowired
     private VendaRepository vendaRepository;
+
     @Override
     public Computador incluir(Computador computador) {
         this.validarCamposObrigatorios(computador);
