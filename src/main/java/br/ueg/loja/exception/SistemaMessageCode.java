@@ -23,7 +23,9 @@ public enum SistemaMessageCode implements MessageCode {
 	ERRO_CAMPOS_OBRIGATORIOS("MSG-001", 400),
 	MSG_OPERACAO_REALIZADA_SUCESSO("MSG-002", 200),
 
-	ERRO_EXISTE_VENDA("MSG-003", 400);
+	ERRO_EXISTE_VENDA("MSG-003", 400),
+	ERRO_EXISTE_COMPUTADOR("MSG-004", 400);
+
 
 	private final String code;
 

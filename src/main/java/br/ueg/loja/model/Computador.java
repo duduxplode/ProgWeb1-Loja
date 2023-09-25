@@ -34,8 +34,9 @@ public class Computador {
     private Long id;
     @Column(name = "descricao", length = 200, nullable = false)
     private String descricao;
-    @Column(name = "tipo", length = 200, nullable = false)
-    private String tipo;
+    @JoinColumn(name = "fk_tipo_computador", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
+    private TipoComputador fkTipoComputador;
     @Column(name = "tamanhoRam", nullable = false)
     private Integer tamanhoRam;
     @Column(name = "unidade_ram", length = 2, nullable = false)

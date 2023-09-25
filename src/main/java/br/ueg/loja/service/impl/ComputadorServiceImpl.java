@@ -50,7 +50,7 @@ public class ComputadorServiceImpl implements ComputadorService {
 
         if (Objects.isNull(computador)) camposVazios.add("Nenhum dado informado");
         if (Objects.isNull(computador.getDescricao()) || computador.getDescricao().isEmpty()) camposVazios.add("Descrição não informada");
-        if (Objects.isNull(computador.getTipo()) || computador.getTipo().isEmpty()) camposVazios.add("Tipo não informado");
+        if (Objects.isNull(computador.getFkTipoComputador())) camposVazios.add("Tipo não informado");
         if (Objects.isNull(computador.getProcessador()) || computador.getProcessador().isEmpty()) camposVazios.add("Processador não informado");
         if (Objects.isNull(computador.getTamanhoRam())) camposVazios.add("Tamanho de RAM não informado");
         if (Objects.isNull(computador.getUnidadeRam()) || computador.getUnidadeRam().isEmpty()) camposVazios.add("Unidade de RAM não informada");

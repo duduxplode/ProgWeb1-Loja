@@ -1,6 +1,7 @@
 package br.ueg.loja;
 
 import br.ueg.loja.model.Computador;
+import br.ueg.loja.model.TipoComputador;
 import br.ueg.loja.repository.ComputadorRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,7 +37,7 @@ public class AppStartupRunner implements ApplicationRunner {
         System.out.println(computadorRepository);
         Computador c1 = new Computador();
         c1.setDescricao("Dell G3");
-        c1.setTipo("Notebook");
+        c1.setFkTipoComputador(new TipoComputador("Notebook"));
         c1.setProcessador("Core i7 9750h");
         c1.setTamanhoRam(8);
         c1.setUnidadeRam("Gb");
@@ -50,7 +51,7 @@ public class AppStartupRunner implements ApplicationRunner {
 
         Computador c2 = new Computador();
         c2.setDescricao("Nitro 5");
-        c2.setTipo("Notebook");
+        c1.setFkTipoComputador(new TipoComputador("Notebook"));
         c2.setProcessador("Core i5 10300h");
         c2.setTamanhoRam(8);
         c2.setUnidadeRam("Gb");
