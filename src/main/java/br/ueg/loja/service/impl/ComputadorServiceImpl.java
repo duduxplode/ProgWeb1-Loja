@@ -2,36 +2,44 @@ package br.ueg.loja.service.impl;
 
 import br.ueg.loja.exception.SistemaMessageCode;
 import br.ueg.loja.model.Computador;
+import br.ueg.loja.model.TipoComputador;
 import br.ueg.loja.repository.ComputadorRepository;
+import br.ueg.loja.repository.TipoComputadorRepository;
 import br.ueg.loja.repository.VendaRepository;
 import br.ueg.loja.service.ComputadorService;
 import br.ueg.loja.storage.StorageService;
 import br.ueg.prog.webi.api.exception.BusinessException;
+import br.ueg.prog.webi.api.service.BaseCrudService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
-public class ComputadorServiceImpl implements ComputadorService {
-
+public class ComputadorServiceImpl extends BaseCrudService<Computador, Long, ComputadorRepository> implements ComputadorService {
 
     @Autowired
-    private ComputadorRepository computadorRepository;
-    @Autowired
-    private VendaRepository vendaRepository;
+    private TipoComputadorRepository tipoComputadorRepository;
 
     @Override
-    public Computador incluir(Computador computador) {
-        this.validarCamposObrigatorios(computador);
-        this.validarDados(computador);
-        Computador computadorIncluido = this.gravarDados(computador);
-        return computadorIncluido;
+    protected void prepararParaIncluir(Computador entidade) {
+        tratarTipo(entidade);
     }
 
-    private void validarDados(Computador computador) {
+    private void tratarTipo(Computador computador) {
+        if(Objects.isNull(computador) ||
+                Objects.isNull(computador.getFkTipoComputador()) ||
+                Objects.isNull(computador.getFkTipoComputador().getId())
+        ) return;
+        Optional<TipoComputador> tipoOptional = tipoComputadorRepository.findById(computador.getFkTipoComputador().getId());
+        tipoOptional.ifPresent(tipo -> computador.setFkTipoComputador(tipo));
+    }
+
+    @Override
+    protected void validarDados(Computador computador) {
         List<String> erros = new ArrayList<>();
 
         if (computador.getTamanhoRam() < 0) erros.add("Tamanho de RAM incorreto");
@@ -45,7 +53,8 @@ public class ComputadorServiceImpl implements ComputadorService {
         }
     }
 
-    private void validarCamposObrigatorios(Computador computador) {
+    @Override
+    protected void validarCamposObrigatorios(Computador computador) {
         List<String> camposVazios = new ArrayList<>();
 
         if (Objects.isNull(computador)) camposVazios.add("Nenhum dado informado");
@@ -68,50 +77,9 @@ public class ComputadorServiceImpl implements ComputadorService {
         }
     }
 
-    private Computador gravarDados(Computador computador) {
-        return computadorRepository.save(computador);
-    }
-
     @Override
     public Computador alterar(Computador computador, Long id) {
-        this.validarCamposObrigatorios(computador);
-        this.validarDados(computador);
-        Computador computadorBD = this.recuperarComputadorOuGeraErro(id);
-        computador.setId(id);
-        Computador save = computadorRepository.save(computador);
-        return save;
-    }
-
-    @Override
-    public Computador excluir(Long id) {
-        Computador computadorExcluir = this.recuperarComputadorOuGeraErro(id);
-        if (vendaRepository.count(computadorExcluir.getId()) == 0)
-            this.computadorRepository.delete(computadorExcluir);
-        else throw new BusinessException(SistemaMessageCode.ERRO_EXISTE_VENDA);
-        return computadorExcluir;
-    }
-
-    @Override
-    public Computador obterPeloId(Long id) {
-        return this.recuperarComputadorOuGeraErro(id);
-    }
-
-    @Override
-    public List<Computador> listarTodos() {
-        return computadorRepository.findAll();
-    }
-
-    @Override
-    public List<Computador> localizar(Computador computador) {
-        return null;
-    }
-
-    private Computador recuperarComputadorOuGeraErro(Long id) {
-        Computador computadorBD = computadorRepository
-                .findById(id)
-                .orElseThrow(
-                        () -> new BusinessException(SistemaMessageCode.ERRO_REGISTRO_NAO_ENCONTRADO)
-                );
-        return computadorBD;
+        this.tratarTipo(computador);
+        return super.alterar(computador, id);
     }
 }

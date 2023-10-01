@@ -1,5 +1,7 @@
 package br.ueg.loja.model;
 
+import br.ueg.prog.webi.api.model.BaseEntidade;
+import br.ueg.prog.webi.api.model.IEntidade;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,7 +15,7 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
 @Entity
 @Table(name = "TBL_TIPO_COMPUTADOR"
 )
-public class TipoComputador {
+public class TipoComputador extends BaseEntidade<Long> {
 
     @SequenceGenerator(
             name="a_gerador_sequence",

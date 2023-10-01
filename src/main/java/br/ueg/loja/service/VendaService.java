@@ -7,6 +7,5 @@ import br.ueg.prog.webi.api.service.CrudService;
 import java.util.List;
 
 public interface VendaService extends CrudService<Venda, Long> {
-    List<Venda> localizar(Venda venda);
     Integer contarVendas(Long idComputador);
 }

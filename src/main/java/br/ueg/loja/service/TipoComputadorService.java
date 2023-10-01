@@ -7,5 +7,4 @@ import br.ueg.prog.webi.api.service.CrudService;
 import java.util.List;
 
 public interface TipoComputadorService extends CrudService<TipoComputador, Long> {
-    List<TipoComputador> localizar(TipoComputador tipoComputador);
 }

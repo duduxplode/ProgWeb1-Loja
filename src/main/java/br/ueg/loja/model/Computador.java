@@ -1,7 +1,9 @@
 package br.ueg.loja.model;
 
+import br.ueg.prog.webi.api.model.BaseEntidade;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
@@ -18,7 +20,7 @@ import static jakarta.persistence.GenerationType.SEQUENCE;
                 @UniqueConstraint(name= Computador.UK_DESCRICAO, columnNames = "descricao" )
         }
 )
-public class Computador {
+public class Computador extends BaseEntidade<Long> {
     public static final String UK_DESCRICAO = "uk_descricao";
     @SequenceGenerator(
             name="a_gerador_sequence",

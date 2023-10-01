@@ -12,7 +12,8 @@ import java.util.List;
 public @Data class ComputadorDTO {
     private Long id;
     private String descricao;
-    private TipoComputador tipo;
+    private Long tipo_id;
+    private String tipo_nome;
     private Integer tamanhoRam;
     private String unidadeRam;
     private String processador;
