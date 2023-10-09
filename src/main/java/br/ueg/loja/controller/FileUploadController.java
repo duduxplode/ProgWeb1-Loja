@@ -75,6 +75,18 @@ public class FileUploadController {
 		return ResponseEntity.ok().body(file.getResource());
 	}
 
+	@Operation(description = "Adiciona um arquivo renomeado no storage" , responses = {
+			@ApiResponse(responseCode = "200", description = "Adiciona arquivo",
+					content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE,
+							array = @ArraySchema(schema = @Schema(implementation = MultipartFile.class))))})
+	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, path = "/{filename:.+}")
+	public ResponseEntity<Resource> handleFileRenameUpload(@RequestPart("file") MultipartFile file, @PathVariable String filename) {
+
+		storageService.store(file,filename);
+
+		return ResponseEntity.ok().body(file.getResource());
+	}
+
 	@ExceptionHandler(StorageFileNotFoundException.class)
 	public ResponseEntity<?> handleStorageFileNotFound(StorageFileNotFoundException exc) {
 		return ResponseEntity.notFound().build();

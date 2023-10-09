@@ -32,6 +32,10 @@ public class FileSystemStorageService implements StorageService {
 			if (file.isEmpty()) {
 				throw new StorageException("Failed to store empty file.");
 			}
+			if (file.getSize() > 131072) {
+				throw new StorageException(
+						"Arquivo ultrapassou limite de 131072 bytes.");
+			}
 			Path destinationFile = this.rootLocation.resolve(
 					Paths.get(file.getOriginalFilename()))
 					.normalize().toAbsolutePath();
@@ -43,6 +47,38 @@ public class FileSystemStorageService implements StorageService {
 			try (InputStream inputStream = file.getInputStream()) {
 				Files.copy(inputStream, destinationFile,
 					StandardCopyOption.REPLACE_EXISTING);
+			}
+		}
+		catch (IOException e) {
+			throw new StorageException("Failed to store file.", e);
+		}
+	}
+
+	private String alteraNome(String nomeFile, String nome) {
+		String[] vetor = nomeFile.split(String.format("%s","."));
+		return nome+"."+vetor[vetor.length -1];
+	}
+
+	public void store(MultipartFile file, String nome) {
+		try {
+			if (file.isEmpty()) {
+				throw new StorageException("Failed to store empty file.");
+			}
+			if (file.getSize() > 131072) {
+				throw new StorageException(
+						"Arquivo ultrapassou limite de 131072 bytes.");
+			}
+			Path destinationFile = this.rootLocation.resolve(
+							Paths.get(alteraNome(file.getOriginalFilename(),nome)))
+					.normalize().toAbsolutePath();
+			if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
+				// This is a security check
+				throw new StorageException(
+						"Cannot store file outside current directory.");
+			}
+			try (InputStream inputStream = file.getInputStream()) {
+				Files.copy(inputStream, destinationFile,
+						StandardCopyOption.REPLACE_EXISTING);
 			}
 		}
 		catch (IOException e) {
