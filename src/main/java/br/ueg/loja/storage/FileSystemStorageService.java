@@ -1,5 +1,6 @@
 package br.ueg.loja.storage;
 
+import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -55,8 +56,7 @@ public class FileSystemStorageService implements StorageService {
 	}
 
 	private String alteraNome(String nomeFile, String nome) {
-		String[] vetor = nomeFile.split(String.format("%s","."));
-		return nome+"."+vetor[vetor.length -1];
+		return nome+"."+ FilenameUtils.getExtension(nomeFile);
 	}
 
 	public void store(MultipartFile file, String nome) {
