@@ -1,21 +1,22 @@
 package br.ueg.loja.model;
 
 import br.ueg.prog.webi.api.model.BaseEntidade;
-import br.ueg.prog.webi.api.model.IEntidade;
+import br.ueg.prog.webi.api.model.annotation.Searchable;
 import jakarta.persistence.*;
-import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
+import lombok.*;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
 @Data
 @Entity
-@Table(name = "TBL_TIPO_COMPUTADOR"
-)
-public class TipoComputador extends BaseEntidade<Long> {
+@Table(name = "TBL_TIPO_COMPUTADOR")
+@Builder
+@AllArgsConstructor
+@ToString
+public @Getter
+@Setter
+@RequiredArgsConstructor
+class TipoComputador extends BaseEntidade<Long> {
 
     @SequenceGenerator(
             name="a_gerador_sequence",
@@ -28,15 +29,14 @@ public class TipoComputador extends BaseEntidade<Long> {
     )
     @Id
     @Column(name = "id")
+    @Searchable(label = "Número")
     private Long id;
     @Column(name = "nome", nullable = false)
+    @Searchable
     private String nome;
 
     public TipoComputador(String nome){
         this.nome = nome;
     }
 
-    public TipoComputador() {
-
-    }
 }

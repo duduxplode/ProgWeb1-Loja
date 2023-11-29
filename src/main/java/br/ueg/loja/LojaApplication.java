@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(
 		scanBasePackages = {
@@ -17,9 +18,13 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 		basePackages = {
 				"br.ueg.loja.*",
 				//Para funcionamento da Arquitetura
-				"br.ueg.prog.webi.api.*"}
+				"br.ueg.prog.webi.*"}
 )
+@EnableJpaRepositories(basePackages = {
+		"br.ueg.loja.*"
+})
 @EnableConfigurationProperties(StorageProperties.class)
+
 public class LojaApplication {
 
 	public static void main(String[] args) {

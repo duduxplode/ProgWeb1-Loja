@@ -11,12 +11,6 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public interface TipoComputadorMapper extends BaseMapper<TipoComputador, TipoComputadorDTO> {
-    /**
-     * Converte a Entidade {@link TipoComputador} em {@link TipoComputadorDTO}
-     * @param tipoComputador
-     * @return
-     */
-    public TipoComputadorDTO toDTO(TipoComputador tipoComputador);
-    public List<TipoComputadorDTO> toDTO(List<TipoComputador> tipoComputadores);
-    public TipoComputador toTipoComputador(TipoComputadorDTO tipoComputadorDTO);
+    @Override
+    TipoComputador toModelo(TipoComputadorDTO tipoComputadorDTO);
 }

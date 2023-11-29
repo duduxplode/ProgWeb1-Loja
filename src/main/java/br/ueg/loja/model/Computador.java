@@ -9,7 +9,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static jakarta.persistence.GenerationType.SEQUENCE;
 
@@ -62,6 +64,6 @@ public class Computador extends BaseEntidade<Long> {
     private String imagem;
     @OneToMany(mappedBy = "fkComputador", fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL})
-    private List<Venda> listVenda;
+    private Set<Venda> listVenda = new HashSet<>();
 
 }
