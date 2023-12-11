@@ -64,6 +64,6 @@ public class Computador extends BaseEntidade<Long> {
     private String imagem;
     @OneToMany(mappedBy = "fkComputador", fetch = FetchType.LAZY,
             cascade = {CascadeType.ALL})
-    private Set<Venda> listVenda = new HashSet<>();
+    private Set<ItemVenda> listVenda = new HashSet<>();
 
 }

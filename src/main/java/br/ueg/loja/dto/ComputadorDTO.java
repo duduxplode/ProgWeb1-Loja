@@ -25,6 +25,6 @@ public @Data class ComputadorDTO {
     private Integer quantidade;
     private String imagem;
     private String imagemBase64;
-    private List<VendaDTO> listVendaDto;
+    private List<ItemVendaDTO> listItemVendaDTO;
     private Integer contVendas;
 }

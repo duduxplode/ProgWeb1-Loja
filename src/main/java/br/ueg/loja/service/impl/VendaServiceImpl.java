@@ -2,10 +2,9 @@ package br.ueg.loja.service.impl;
 
 import br.ueg.loja.exception.SistemaMessageCode;
 import br.ueg.loja.model.Computador;
-import br.ueg.loja.model.TipoComputador;
+import br.ueg.loja.model.ItemVenda;
 import br.ueg.loja.model.Venda;
 import br.ueg.loja.repository.ComputadorRepository;
-import br.ueg.loja.repository.TipoComputadorRepository;
 import br.ueg.loja.repository.VendaRepository;
 import br.ueg.loja.service.VendaService;
 import br.ueg.prog.webi.api.exception.BusinessException;
@@ -28,25 +27,36 @@ public class VendaServiceImpl extends BaseCrudService<Venda, Long, VendaReposito
     @Override
     protected void prepararParaIncluir(Venda venda) {
         this.validarCamposObrigatorios(venda);
-        this.tratarComputador(venda);
+        this.tratarVenda(venda);
         this.validarDados(venda);
-        venda.getFkComputador().setQuantidade(venda.getFkComputador().getQuantidade() - venda.getQuantidade());
+        this.atualizarQuantidades(venda);
     }
 
-    private void tratarComputador(Venda venda) {
+    private void atualizarQuantidades(Venda venda) {
+        for (ItemVenda item : venda.getListItensVenda()) {
+            item.getFkComputador().setQuantidade(item.getFkComputador().getQuantidade() - item.getQuantidade());
+        }
+    }
+
+    private void tratarVenda(Venda venda) {
         if(Objects.isNull(venda) ||
-                Objects.isNull(venda.getFkComputador()) ||
-                Objects.isNull(venda.getFkComputador().getId())
+                Objects.isNull(venda.getListItensVenda()) ||
+                venda.getListItensVenda().isEmpty()
         ) return;
-        Optional<Computador> tipoOptional = computadorRepository.findById(venda.getFkComputador().getId());
-        tipoOptional.ifPresent(computador -> venda.setFkComputador(computador));
+        for (ItemVenda item : venda.getListItensVenda()) {
+            Optional<Computador> tipoOptional = computadorRepository.findById(item.getFkComputador().getId());
+            tipoOptional.ifPresent(computador -> item.setFkComputador(computador));
+        }
     }
 
     @Override
     protected void validarDados(Venda venda) {
         List<String> erros = new ArrayList<>();
 
-        if (venda.getQuantidade() > venda.getFkComputador().getQuantidade()) erros.add("Quantidade insuficiente para esta compra");
+        for (ItemVenda item : venda.getListItensVenda()) {
+            if (item.getQuantidade() > item.getFkComputador().getQuantidade())
+                erros.add("Quantidade insuficiente para o computador "+ item.getFkComputador().getDescricao());
+        }
 
         if(!erros.isEmpty()){
             throw  new BusinessException(SistemaMessageCode.ERRO_REGISTRO_NAO_ENCONTRADO,"Erro ao validar dados da venda: "+

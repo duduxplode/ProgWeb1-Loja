@@ -20,7 +20,8 @@ public class TipoComputadorServiceImpl extends BaseCrudService<TipoComputador, L
 
     @Override
     protected void prepararParaIncluir(TipoComputador entidade) {
-
+        validarDados(entidade);
+        validarCamposObrigatorios(entidade);
     }
 
     @Override
